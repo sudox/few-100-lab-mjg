@@ -9,6 +9,7 @@ function tipClick(e: Event) {
     document.getElementById('tipDialog').innerText = 'You are tipping ' + buttonClicked.innerText;
     document.getElementById('tipPercent').innerText = "Tip Percentage: " + buttonClicked.innerText;
     updateTotals();
+    localStorage['tip'] = e.srcElement.id;
 }
 
 function updateTotals() {
@@ -41,4 +42,9 @@ export function runApp() {
     document.getElementsByName('tipB').forEach(function (e) {
         e.addEventListener('click', tipClick);
     });
+
+    // Web Storage for tip value retrieve
+    if (localStorage['tip']) {
+        document.getElementById(localStorage['tip']).click();
+    }
 }
