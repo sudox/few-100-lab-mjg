@@ -1,14 +1,16 @@
-
 function tipClick(e: Event) {
-    const tipButtons = document.getElementsByName('tipB');
     const buttonClicked = e.srcElement as HTMLInputElement;
-
+    const tipButtons = document.getElementsByName('tipB');
     tipButtons.forEach((b: HTMLInputElement) => b.disabled = false);  // Enable all the tip buttons
-    buttonClicked.disabled = true; // Disable the source click button
 
-    document.getElementById('tipDialog').innerText = 'You are tipping ' + buttonClicked.innerText;
-    document.getElementById('tipPercent').innerText = "Tip Percentage: " + buttonClicked.innerText;
-    updateTotals();
+    buttonClicked.disabled = true; // Disable the source click button
+    (document.getElementById('customTipBox') as HTMLInputElement).style.display = 'none';
+
+    if (buttonClicked.innerText != 'Custom') {
+        document.getElementById('tipDialog').innerText = 'You are tipping ' + buttonClicked.innerText;
+        document.getElementById('tipPercent').innerText = 'Tip Percentage: ' + buttonClicked.innerText;
+        updateTotals();
+    }
     localStorage['tip'] = e.srcElement.id;
 }
 
@@ -19,7 +21,29 @@ function updateTotals() {
     const totalPaid = +(billAmount + tipAmount);
 
     document.getElementById('tipAmount').innerText = 'Amount of tip: $' + tipAmount.toFixed(2);
-    document.getElementById('totalPaid').innerText = "Total to be Paid: $" + totalPaid.toFixed(2);
+    document.getElementById('totalPaid').innerText = 'Total to be Paid: $' + totalPaid.toFixed(2);
+}
+
+function customClick(e: Event) {
+    const buttonClicked = e.srcElement as HTMLInputElement;
+    buttonClicked.disabled = true;
+
+    document.getElementById('customTipBox').style.display = 'block';
+}
+
+function customTipValueChange() {
+    const customTip = document.getElementById('customTipBox') as HTMLInputElement;
+
+    if ((customTip.value) == null || +(customTip.value) < 0) {
+        customTip.classList.add('invalid');
+        customTip.value = '';
+    }
+    else {
+        customTip.classList.remove('invalid');
+    }
+    document.getElementById('tipDialog').innerText = 'You are tipping ' + customTip.value + '%';
+    document.getElementById('tipPercent').innerText = 'Tip Percentage: ' + customTip.value + '%';
+    updateTotals();
 }
 
 export function runApp() {
@@ -42,6 +66,8 @@ export function runApp() {
     document.getElementsByName('tipB').forEach(function (e) {
         e.addEventListener('click', tipClick);
     });
+    document.getElementById('tipCustom').addEventListener('click', customClick);
+    document.getElementById('customTipBox').addEventListener('keyup', customTipValueChange);
 
     // Web Storage for tip value retrieve
     if (localStorage['tip']) {
