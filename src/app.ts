@@ -9,38 +9,36 @@ function tipClick(e: Event) {
     document.getElementById('tipDialog').innerText = 'You are tipping ' + buttonClicked.innerText;
     document.getElementById('tipPercent').innerText = "Tip Percentage: " + buttonClicked.innerText;
     updateTotals();
-
-}
-
-function billChange() {
-    const billEntered = document.getElementById('totalBill') as HTMLInputElement;
-    document.getElementById('billAmount').innerText = "Bill Amount: $" + billEntered.value;
-    updateTotals();
 }
 
 function updateTotals() {
     const billAmount = +document.getElementById('billAmount').innerText.match(/\d*\.?\d+/);
     const tipPercent = +document.getElementById('tipPercent').innerText.match(/\d*\.?\d+/);
-    const tipAmount = tipPercent * .01 * billAmount;
-    const totalPaid = billAmount + tipAmount;
+    const tipAmount = +(tipPercent * .01 * billAmount);
+    const totalPaid = +(billAmount + tipAmount);
 
-    document.getElementById('tipAmount').innerText = 'Amount of tip: $' + tipAmount;
-    document.getElementById('totalPaid').innerText = "Total to be Paid: $" + totalPaid;
+    document.getElementById('tipAmount').innerText = 'Amount of tip: $' + tipAmount.toFixed(2);
+    document.getElementById('totalPaid').innerText = "Total to be Paid: $" + totalPaid.toFixed(2);
 }
 
 export function runApp() {
-
     // Bill amount hook
     const totalBill = document.getElementById('totalBill') as HTMLInputElement;
-    totalBill.addEventListener('keyup', billChange);
+    totalBill.addEventListener('keyup', () => {
+        // Checks if the number input is malformed or negative
+        if ((totalBill.value) == null || +(totalBill.value) < 0) {
+            totalBill.classList.add('invalid');
+            totalBill.value = '';
+        }
+        else {
+            totalBill.classList.remove('invalid');
+        }
+        document.getElementById('billAmount').innerText = 'Bill Amount: $' + (+totalBill.value).toFixed(2);
+        updateTotals();
+    });
 
     // Tip button hooks
     document.getElementsByName('tipB').forEach(function (e) {
         e.addEventListener('click', tipClick);
     });
-
-    // billAmount.innerHTML = 'Test1';
-    // tipPercent.innerHTML = 'Test2';
-    // tipAmount.innerHTML = 'Test3';
-    // totalPaid.innerHTML = 'Test4';
 }
