@@ -19,11 +19,9 @@ function billChange() {
 }
 
 function updateTotals() {
-    const billAmount = +document.getElementById('billAmount').innerText.replace(/^\D+/g, '');
-    let tipPercent = document.getElementById('tipPercent').innerText.replace(/^\D+/g, '');
-    tipPercent = tipPercent.substring(0, tipPercent.length - 1);
-    console.log(billAmount, tipPercent);
-    const tipAmount = +tipPercent * .01 * billAmount;
+    const billAmount = +document.getElementById('billAmount').innerText.match(/\d*\.?\d+/);
+    const tipPercent = +document.getElementById('tipPercent').innerText.match(/\d*\.?\d+/);
+    const tipAmount = tipPercent * .01 * billAmount;
     const totalPaid = billAmount + tipAmount;
 
     document.getElementById('tipAmount').innerText = 'Amount of tip: $' + tipAmount;
@@ -34,7 +32,7 @@ export function runApp() {
 
     // Bill amount hook
     const totalBill = document.getElementById('totalBill') as HTMLInputElement;
-    totalBill.addEventListener('change', billChange);
+    totalBill.addEventListener('keyup', billChange);
 
     // Tip button hooks
     document.getElementsByName('tipB').forEach(function (e) {
