@@ -1,10 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Webpack Showcase</title>
+    <title>Tip Calculator</title>
 </head>
+
 <body>
-    <h1>Welcome to Class.</h1>
+    <div class="container">
+        <h1>Tip Calculator</h1>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"
+                      id="basic-addon1">$</span>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   placeholder="Total Bill"
+                   aria-label="Total Bill"
+                   aria-describedby="basic-addon1">
+        </div>
+        <div class="btn-group"
+             role="group"
+             aria-label="Tip Percent">
+            <button type="button"
+                    class="btn btn-secondary">10%</button>
+            <button type="button"
+                    class="btn btn-secondary">15%</button>
+            <button type="button"
+                    class="btn btn-secondary">20%</button>
+        </div>
+        <p id="tipDialog"></p>
+        <ul id="results"
+            class="list-group">
+            <li id="billAmount"
+                class="list-group-item">Bill Amount </li>
+            <li id="tipPercent"
+                class="list-group-item">Tip Percentage </li>
+            <li id="tipAmount"
+                class="list-group-item">Amount of tip </li>
+            <li id="totalPaid"
+                class="list-group-item">Total to be paid </li>
+        </ul>
+    </div>
 </body>
+
 </html>
