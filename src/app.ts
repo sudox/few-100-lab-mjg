@@ -8,25 +8,33 @@ function tipClick(e: Event) {
 
     const tipDialog = document.getElementById('tipDialog');
     tipDialog.innerText = 'You are tipping ' + buttonClicked.innerText;
+
+    // Update list table
+    const bill = +document.getElementById('billAmount').innerText;
+    let tipAmount = bill * (+buttonClicked.innerText);
+    tipAmount = !!tipAmount ? tipAmount : 0.0;
+    document.getElementById('tipPercent').innerText = 'Tip Percentage: ' + buttonClicked.innerText;
+    document.getElementById('tipAmount').innerText = 'Amount of tip: $' + tipAmount;
+
 }
-function test() { }
+
+function billChange() {
+
+}
 
 export function runApp() {
-    console.log('they see me running');
 
-    // List items
-    const billAmount = document.getElementById('billAmount');
-    const tipPercent = document.getElementById('tipPercent');
-    const tipAmount = document.getElementById('tipAmount');
-    const totalPaid = document.getElementById('totalPaid');
+    // Bill amount hook
+    const totalBill = document.getElementById('totalBill') as HTMLInputElement;
+    totalBill.addEventListener('change', billChange);
 
     // Tip button hooks
     document.getElementsByName('tipB').forEach(function (e) {
         e.addEventListener('click', tipClick);
     });
 
-    billAmount.innerHTML = 'Test1';
-    tipPercent.innerHTML = 'Test2';
-    tipAmount.innerHTML = 'Test3';
-    totalPaid.innerHTML = 'Test4';
+    // billAmount.innerHTML = 'Test1';
+    // tipPercent.innerHTML = 'Test2';
+    // tipAmount.innerHTML = 'Test3';
+    // totalPaid.innerHTML = 'Test4';
 }
